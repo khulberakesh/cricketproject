@@ -1,0 +1,79 @@
+{% load i18n %}
+{% block title %}
+{% trans "Players List" %}
+<p>TEAMNAME:{{team_name}}</p> 
+{% endblock %}
+<style>
+table, td, th {  
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
+</style>
+{% block content %}
+
+    {% if teamdata %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Player  Picture" %}</th>
+                    <th>{% trans "Jersey Number" %}</th>
+                    <th>{% trans "Country" %}</th>
+                    <th>{% trans "Matches Played" %}</th>
+                    <th>{% trans "Wickets" %}</th>
+                    <th>{% trans "Runs" %}</th>
+                    <th>{% trans "Centuries" %}</th>
+                    <th>{% trans "Fifties" %}</th>
+                    <th>{% trans "Highest Score" %}</th>
+                    <th>{% trans "Team" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in teamdata %}
+                    <tr>
+                        <td>{{ data.first_name|default:"-" }}</td>
+                        <td> <p><img src="{{ data.image_uri }}" width="80px"></p> </td>
+                        <td>{{ data.jersey_number|default:"-" }}</td>
+                        <td>{{ data.country|default:"-" }}</td>
+                        <td>{% for a in data.player.all %}
+                                {{a.matches}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{% for b in data.player.all %}
+                                {{b.wickets}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{% for c in data.player.all %}
+                                {{c.runs}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{% for d in data.player.all %}
+                                {{d.centuries}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{% for e in data.player.all %}
+                                {{e.fifties}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{% for f in data.player.all %}
+                                {{f.high_score}}
+                                {% empty %}
+                             {% endfor %}</td>
+                        <td>{{ data.team.name|default:"-" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "No Player found" %}</p>
+    {% endif %}
+{% endblock content %}

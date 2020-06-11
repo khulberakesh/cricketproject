@@ -1,0 +1,44 @@
+{% load i18n %}
+{% block title %}
+    {% trans "Game Fixture" %}
+{% endblock %}
+<style>
+table, td, th {  
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
+</style>
+{% block content %}
+
+    {% if allmatch %}
+        <table>    
+            <thead>
+                <tr>
+                    <th>{% trans " TeamA" %}</th>
+                    <th>{% trans "TeamB" %}</th>
+                    <th>{% trans "Winning Team" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in allmatch %}
+                    <tr>
+                        <td><a href="{% url 'cricketapp:teaminfo' match.playing_team1.id %}" >{{ match.playing_team1.name|default:"-" }}</a></td>
+                        <td><a href="{% url 'cricketapp:teaminfo' match.playing_team2.id %}" >{{ match.playing_team2.name|default:"-" }}</a></td>
+                        <td>{{ match.winner.name|default:"-" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "No data found" %}</p>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% load i18n %}
+{% block title %}
+    {% trans "Cricket Team List" %}
+{% endblock %}
+
+<style>
+table, td, th {  
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
+</style>
+{% block content %}
+<br>
+<a href="{% url 'cricketapp:pointstable' %}">Points Table</a>
+<br>
+<a href="{% url 'cricketapp:matchdetails' %}">Match details</a>
+
+
+    {% if allteam %}
+        <table>
+            <thead>
+                <tr>
+                    <th>{% trans "Team name" %}</th>
+                    <th>{% trans "Team logo" %}</th>
+                    <th>{% trans "other" %}</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in allteam %}
+                    <tr>
+                        <td><p>{{ team.name}}</p></td>
+                        <td> <p><img src="{{ team.logouri }}" width="80px"></p> </td>
+                        <td><a href="{% url 'cricketapp:teaminfo' team.id %}" target="_blank">
+                        Team info</a></td>
+                       
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "No data found" %}</p>
+    {% endif %}
+{% endblock content %}
